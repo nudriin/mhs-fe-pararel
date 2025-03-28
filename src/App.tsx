@@ -22,7 +22,6 @@ function App() {
     const [cookies, setCookie] = useCookies(["auth"])
     const auth = cookies.auth
     const URL = import.meta.env.VITE_WD_URL
-    console.log(URL)
 
     const login = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault()
@@ -35,9 +34,6 @@ function App() {
             })
 
             const body = await response.json()
-
-            console.log(body)
-
             setCookie("auth", JSON.stringify(body.token))
         } catch (error) {
             console.log(error)
@@ -54,9 +50,6 @@ function App() {
                     },
                 })
                 const body = await response.json()
-
-                console.log(body)
-
                 setMahasiswa(body.data)
             } catch (error) {
                 console.log(error)
@@ -67,61 +60,94 @@ function App() {
             getMahasiswa()
         }
     }, [auth, URL])
+
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex flex-col items-center justify-center p-6">
             {!auth && (
-                <div className="flex flex-col gap-4">
-                    <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="username">Username</Label>
-                        <Input
-                            id="username"
-                            placeholder="Username"
-                            type="text"
-                        />
+                <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
+                    <h2 className="text-2xl font-bold text-center mb-8 ">
+                        Student Portal Login
+                    </h2>
+                    <div className="space-y-6">
+                        <div className="space-y-2">
+                            <Label className="text-sm font-medium text-gray-700">
+                                Username
+                            </Label>
+                            <Input
+                                id="username"
+                                className="h-12 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Enter your username"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-sm font-medium text-gray-700">
+                                Password
+                            </Label>
+                            <Input
+                                id="password"
+                                type="password"
+                                className="h-12 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Enter your password"
+                            />
+                        </div>
+                        <Button
+                            onClick={login}
+                            className="w-full h-12 rounded-xl text-lg font-semibold text-white shadow-md transition-all duration-300"
+                        >
+                            Sign In
+                        </Button>
                     </div>
-                    <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="password">Password</Label>
-                        <Input
-                            id="password"
-                            placeholder="******"
-                            type="password"
-                        />
-                    </div>
-                    <Button onClick={login}>Login</Button>
                 </div>
             )}
+
             {auth && (
-                <div className="w-9/12 mx-auto mt-10">
-                    <div className="flex justify-end mb-10">
+                <div className="w-full max-w-6xl bg-white p-8 rounded-2xl shadow-xl border border-gray-100 mt-10">
+                    <div className="flex justify-between items-center mb-8">
+                        <h2 className="text-3xl font-bold">Student Database</h2>
                         <AddMahasiswa />
                     </div>
-                    <Table>
-                        <TableCaption>A list of Mahasiswa.</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[100px]">ID</TableHead>
-                                <TableHead>Nama</TableHead>
-                                <TableHead>NIM</TableHead>
-                                <TableHead className="text-right">
-                                    Action
+                    <Table className="border-collapse w-full">
+                        <TableCaption className="mt-4 text-gray-500">
+                            Total of {mahasiswa.length} students registered
+                        </TableCaption>
+                        <TableHeader className="bg-gray-50">
+                            <TableRow className="hover:bg-transparent">
+                                <TableHead className="w-[100px] py-4 text-gray-600 font-semibold border-b border-gray-200">
+                                    ID
+                                </TableHead>
+                                <TableHead className="text-gray-600 font-semibold border-b border-gray-200">
+                                    Name
+                                </TableHead>
+                                <TableHead className="text-gray-600 font-semibold border-b border-gray-200">
+                                    Student ID
+                                </TableHead>
+                                <TableHead className="text-right py-4 text-gray-600 font-semibold border-b border-gray-200">
+                                    Actions
                                 </TableHead>
                             </TableRow>
                         </TableHeader>
-                        {mahasiswa.map((mhs) => (
-                            <TableBody key={mhs.id}>
-                                <TableRow>
-                                    <TableCell className="font-medium">
-                                        {mhs.id}
+                        <TableBody>
+                            {mahasiswa.map((mhs) => (
+                                <TableRow
+                                    key={mhs.id}
+                                    className="hover:bg-gray-50 transition-colors duration-150 border-b border-gray-100"
+                                >
+                                    <TableCell className="font-medium text-gray-700 py-4">
+                                        #{mhs.id}
                                     </TableCell>
-                                    <TableCell>{mhs.nama}</TableCell>
-                                    <TableCell>{mhs.nim}</TableCell>
-                                    <TableCell className="text-right space-x-2">
+                                    <TableCell className="text-gray-600">
+                                        {mhs.nama}
+                                    </TableCell>
+                                    <TableCell className="text-gray-600">
+                                        {mhs.nim}
+                                    </TableCell>
+                                    <TableCell className="text-right space-x-2 py-4">
                                         <EditMahasiswa mahasiswa={mhs} />
                                         <DeleteMahasiswa id={mhs.id} />
                                     </TableCell>
                                 </TableRow>
-                            </TableBody>
-                        ))}
+                            ))}
+                        </TableBody>
                     </Table>
                 </div>
             )}
