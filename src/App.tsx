@@ -13,6 +13,8 @@ import { useCookies } from "react-cookie"
 import { Button } from "./components/ui/button"
 import AddMahasiswa from "./components/AddMahasiswa"
 import EditMahasiswa from "./components/EditMahasiswa"
+import { Label } from "@radix-ui/react-label"
+import { Input } from "./components/ui/input"
 
 function App() {
     const [mahasiswa, setMahasiswa] = useState<Mahasiswa[]>([])
@@ -87,8 +89,20 @@ function App() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center">
             {!auth && (
-                <div>
-                    <Button onClick={login}>Get Access</Button>
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="username">Username</Label>
+                        <Input id="username" placeholder="nurdin" type="text" />
+                    </div>
+                    <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="password">Password</Label>
+                        <Input
+                            id="password"
+                            placeholder="******"
+                            type="password"
+                        />
+                    </div>
+                    <Button onClick={login}>Login</Button>
                 </div>
             )}
             {auth && (
