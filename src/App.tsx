@@ -15,6 +15,7 @@ import AddMahasiswa from "./components/AddMahasiswa"
 import EditMahasiswa from "./components/EditMahasiswa"
 import { Label } from "@radix-ui/react-label"
 import { Input } from "./components/ui/input"
+import DeleteMahasiswa from "./components/DeleteMahasiswa"
 
 function App() {
     const [mahasiswa, setMahasiswa] = useState<Mahasiswa[]>([])
@@ -38,26 +39,6 @@ function App() {
             console.log(body)
 
             setCookie("auth", JSON.stringify(body.token))
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const removeMahasiswa = async (id: number) => {
-        try {
-            const response = await fetch(`${URL}/mahasiswa/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${auth}`,
-                },
-            })
-
-            const body = await response.json()
-            if (body) {
-                window.location.reload()
-            }
-            console.log(body)
         } catch (error) {
             console.log(error)
         }
@@ -136,14 +117,7 @@ function App() {
                                     <TableCell>{mhs.nim}</TableCell>
                                     <TableCell className="text-right space-x-2">
                                         <EditMahasiswa mahasiswa={mhs} />
-                                        <Button
-                                            onClick={() =>
-                                                removeMahasiswa(mhs.id)
-                                            }
-                                            variant={"destructive"}
-                                        >
-                                            Delete
-                                        </Button>
+                                        <DeleteMahasiswa id={mhs.id} />
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
