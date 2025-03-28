@@ -40,6 +40,26 @@ function App() {
         }
     }
 
+    const removeMahasiswa = async (id: number) => {
+        try {
+            const response = await fetch(`${URL}/mahasiswa/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${auth}`,
+                },
+            })
+
+            const body = await response.json()
+            if (body) {
+                window.location.reload()
+            }
+            console.log(body)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         const getMahasiswa = async () => {
             try {
@@ -72,6 +92,9 @@ function App() {
             )}
             {auth && (
                 <div className="w-9/12 mx-auto mt-10">
+                    <div className="flex justify-end mb-10">
+                        <AddMahasiswa />
+                    </div>
                     <Table>
                         <TableCaption>A list of Mahasiswa.</TableCaption>
                         <TableHeader>
@@ -85,7 +108,7 @@ function App() {
                             </TableRow>
                         </TableHeader>
                         {mahasiswa.map((mhs) => (
-                            <TableBody>
+                            <TableBody key={mhs.id}>
                                 <TableRow>
                                     <TableCell className="font-medium">
                                         {mhs.id}
@@ -93,8 +116,14 @@ function App() {
                                     <TableCell>{mhs.nama}</TableCell>
                                     <TableCell>{mhs.nim}</TableCell>
                                     <TableCell className="text-right">
-                                        <AddMahasiswa />
-                                        <Button></Button>
+                                        <Button
+                                            onClick={() =>
+                                                removeMahasiswa(mhs.id)
+                                            }
+                                            variant={'destructive'}
+                                        >
+                                            Delete
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             </TableBody>

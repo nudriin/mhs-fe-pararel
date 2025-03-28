@@ -58,7 +58,7 @@ export default function AddMahasiswa() {
         <Dialog>
             <DialogTrigger asChild>
                 <Button className="flex items-center justify-center h-full gap-2 group hover:border-primary hover:cursor-pointer text-secondary rounded-full">
-                    <p className="font-semibold">Add</p>
+                    <p className="font-semibold">Add Mahasiswa</p>
                 </Button>
             </DialogTrigger>
             <DialogContent>
