@@ -3,3 +3,8 @@ export interface Mahasiswa {
     nama: string
     nim: string
 }
+
+export interface MahasiswaAddRequest {
+    nama: string
+    nim: string
+}

@@ -11,12 +11,13 @@ import {
 import { Mahasiswa } from "./types/mahasiswa"
 import { useCookies } from "react-cookie"
 import { Button } from "./components/ui/button"
+import AddMahasiswa from "./components/AddMahasiswa"
 
 function App() {
     const [mahasiswa, setMahasiswa] = useState<Mahasiswa[]>([])
     const [cookies, setCookie] = useCookies(["auth"])
     const auth = cookies.auth
-    const URL = "http://192.168.18.173:5000"
+    const URL = import.meta.env.VITE_WD_URL
     console.log(URL)
 
     const login = async (e: React.MouseEvent<HTMLElement>) => {
@@ -61,7 +62,7 @@ function App() {
         if (auth) {
             getMahasiswa()
         }
-    }, [auth])
+    }, [auth, URL])
     return (
         <div className="min-h-screen flex flex-col items-center justify-center">
             {!auth && (
@@ -92,7 +93,7 @@ function App() {
                                     <TableCell>{mhs.nama}</TableCell>
                                     <TableCell>{mhs.nim}</TableCell>
                                     <TableCell className="text-right">
-                                        <Button></Button>
+                                        <AddMahasiswa />
                                         <Button></Button>
                                     </TableCell>
                                 </TableRow>
