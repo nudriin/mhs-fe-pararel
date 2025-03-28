@@ -12,6 +12,7 @@ import { Mahasiswa } from "./types/mahasiswa"
 import { useCookies } from "react-cookie"
 import { Button } from "./components/ui/button"
 import AddMahasiswa from "./components/AddMahasiswa"
+import EditMahasiswa from "./components/EditMahasiswa"
 
 function App() {
     const [mahasiswa, setMahasiswa] = useState<Mahasiswa[]>([])
@@ -115,12 +116,13 @@ function App() {
                                     </TableCell>
                                     <TableCell>{mhs.nama}</TableCell>
                                     <TableCell>{mhs.nim}</TableCell>
-                                    <TableCell className="text-right">
+                                    <TableCell className="text-right space-x-2">
+                                        <EditMahasiswa mahasiswa={mhs} />
                                         <Button
                                             onClick={() =>
                                                 removeMahasiswa(mhs.id)
                                             }
-                                            variant={'destructive'}
+                                            variant={"destructive"}
                                         >
                                             Delete
                                         </Button>

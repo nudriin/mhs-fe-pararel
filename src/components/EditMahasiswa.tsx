@@ -1,3 +1,4 @@
+import { useCookies } from "react-cookie"
 import { Button } from "./ui/button"
 import {
     Dialog,
@@ -11,16 +12,11 @@ import {
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import { useState } from "react"
-import { MahasiswaAddRequest } from "../types/mahasiswa"
-import { useCookies } from "react-cookie"
-
-export default function AddMahasiswa() {
-    const [formData, setFormData] = useState<MahasiswaAddRequest>({
-        nama: "Nurdin",
-        nim: "213130503177",
-    })
+import { Mahasiswa } from "@/types/mahasiswa"
+export default function EditMahasiswa({ mahasiswa }: { mahasiswa: Mahasiswa }) {
     const [cookies] = useCookies(["auth"])
     const auth = cookies.auth
+    const [formData, setFormData] = useState<Mahasiswa>(mahasiswa)
     const URL = import.meta.env.VITE_WD_URL
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,11 +27,13 @@ export default function AddMahasiswa() {
         console.log(formData)
     }
 
-    const handleAdd = async (e: React.MouseEvent<HTMLElement>) => {
+    const handleEdit = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault()
+        const id = mahasiswa.id
+        console.log(id)
         try {
-            const response = await fetch(`${URL}/mahasiswa`, {
-                method: "POST",
+            const response = await fetch(`${URL}/mahasiswa/${id}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${auth}`,
@@ -53,31 +51,32 @@ export default function AddMahasiswa() {
             console.log(error)
         }
     }
-
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="flex items-center justify-center h-full gap-2 group hover:border-primary hover:cursor-pointer text-secondary">
-                    <p className="font-semibold">Add Mahasiswa</p>
+                <Button className="cursor-pointer">
+                    <p className="font-semibold">Edit</p>
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader className="text-left">
                     <DialogTitle className="text-2xl font-semibold">
-                        Add Mahasiswa
+                        Edit
                     </DialogTitle>
                     <DialogDescription>
-                        Add new Mahasiswa to the server
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit.
                     </DialogDescription>
                 </DialogHeader>
                 <form>
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="nama">Nama</Label>
+                            <Label htmlFor="nama">Name</Label>
                             <Input
                                 onChange={handleChange}
                                 id="nama"
                                 placeholder="Nurdin"
+                                defaultValue={mahasiswa.nama}
                             />
                         </div>
                         <div className="flex flex-col space-y-1.5">
@@ -85,19 +84,19 @@ export default function AddMahasiswa() {
                             <Input
                                 onChange={handleChange}
                                 id="nim"
-                                placeholder="nurdin"
-                                type="number"
+                                placeholder="2025"
+                                type="text"
+                                defaultValue={mahasiswa.nim}
                             />
                         </div>
                     </div>
                 </form>
                 <DialogFooter>
                     <Button
-                        onClick={handleAdd}
-                        className="w-full text-secondary rounded-full cursor-pointer"
-                        type="submit"
+                        onClick={handleEdit}
+                        className="w-full text-secondary cursor-pointer rounded-full"
                     >
-                        Save
+                        Edit
                     </Button>
                 </DialogFooter>
             </DialogContent>
