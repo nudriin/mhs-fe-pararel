@@ -75,7 +75,7 @@ export default function EditMahasiswa({ mahasiswa }: { mahasiswa: Mahasiswa }) {
                             <Input
                                 onChange={handleChange}
                                 id="nama"
-                                placeholder="Nurdin"
+                                placeholder="Elon Musk"
                                 defaultValue={mahasiswa.nama}
                             />
                         </div>
@@ -84,7 +84,7 @@ export default function EditMahasiswa({ mahasiswa }: { mahasiswa: Mahasiswa }) {
                             <Input
                                 onChange={handleChange}
                                 id="nim"
-                                placeholder="2025"
+                                placeholder="2120002"
                                 type="text"
                                 defaultValue={mahasiswa.nim}
                             />

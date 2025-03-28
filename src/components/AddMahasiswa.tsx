@@ -77,7 +77,7 @@ export default function AddMahasiswa() {
                             <Input
                                 onChange={handleChange}
                                 id="nama"
-                                placeholder="Nurdin"
+                                placeholder="Elon Musk"
                             />
                         </div>
                         <div className="flex flex-col space-y-1.5">
@@ -85,7 +85,7 @@ export default function AddMahasiswa() {
                             <Input
                                 onChange={handleChange}
                                 id="nim"
-                                placeholder="nurdin"
+                                placeholder="21300022"
                                 type="number"
                             />
                         </div>

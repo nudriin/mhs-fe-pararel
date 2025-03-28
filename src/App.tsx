@@ -92,7 +92,11 @@ function App() {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="username">Username</Label>
-                        <Input id="username" placeholder="nurdin" type="text" />
+                        <Input
+                            id="username"
+                            placeholder="Username"
+                            type="text"
+                        />
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="password">Password</Label>
